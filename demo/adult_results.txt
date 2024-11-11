@@ -1,0 +1,96 @@
+The following linter(s) triggered on your dataset:
+* DuplicateExampleDetector
+* NonNormalNumericFeatureDetector
+* TailedDistributionDetector
+
+
+================================================================================
+DuplicateExampleDetector
+================================================================================
+This linter finds exactly duplicated Examples. It's possible that your data
+generation process actually permits duplicates or they're the result of missing
+entries.  For spurious duplicates, a few are usually fine, but a large number or
+Examples shared across train/val/test can be problematic and should be filtered.
+
+Quickfix: remove all but one of each Example.
+-----
+Found 24 exact duplicate examples, 10 of which are shown below.
+---------------------------------------------------------------------
+| age | capital-gain | capital-loss |   education    | education-num 
+---------------------------------------------------------------------
+| 28L |      0L      |      0L      |   'Masters'    |      14L      
+| 30L |      0L      |      0L      |   'HS-grad'    |       9L      
+| 39L |      0L      |      0L      |   'HS-grad'    |       9L      
+| 25L |      0L      |      0L      |  'Bachelors'   |      13L      
+| 19L |      0L      |      0L      | 'Some-college' |      10L      
+| 23L |      0L      |      0L      |   '5th-6th'    |       3L      
+| 21L |      0L      |      0L      | 'Some-college' |      10L      
+| 19L |      0L      |      0L      |   'HS-grad'    |       9L      
+| 42L |      0L      |      0L      | 'Some-college' |      10L      
+| 25L |      0L      |      0L      |   '1st-4th'    |       2L      
+---------------------------------------------------------------------
+
+-----------------------------------------------------------------------------
+  fnlwgt | hours-per-week |  label  |    marital-status    |  native-country 
+-----------------------------------------------------------------------------
+ 274679L |      50L       | '<=50K' |   'Never-married'    | 'United-States' 
+ 144593L |      40L       | '<=50K' |   'Never-married'    |       '?'       
+  30916L |      40L       | '<=50K' | 'Married-civ-spouse' | 'United-States' 
+ 308144L |      40L       | '<=50K' |   'Never-married'    |     'Mexico'    
+ 251579L |      14L       | '<=50K' |   'Never-married'    | 'United-States' 
+ 240137L |      55L       | '<=50K' |   'Never-married'    |     'Mexico'    
+ 250051L |      10L       | '<=50K' |   'Never-married'    | 'United-States' 
+  97261L |      40L       | '<=50K' |   'Never-married'    | 'United-States' 
+ 204235L |      40L       |  '>50K' | 'Married-civ-spouse' | 'United-States' 
+ 195994L |      40L       | '<=50K' |   'Never-married'    |   'Guatemala'   
+-----------------------------------------------------------------------------
+
+-------------------------------------------------------------------------
+      occupation     |   race  |   relationship  |   sex    | workclass |
+-------------------------------------------------------------------------
+   'Prof-specialty'  | 'White' | 'Not-in-family' |  'Male'  | 'Private' |
+   'Other-service'   | 'Black' | 'Not-in-family' |  'Male'  | 'Private' |
+    'Craft-repair'   | 'White' |    'Husband'    |  'Male'  | 'Private' |
+    'Craft-repair'   | 'White' | 'Not-in-family' |  'Male'  | 'Private' |
+   'Other-service'   | 'White' |   'Own-child'   |  'Male'  | 'Private' |
+ 'Handlers-cleaners' | 'White' | 'Not-in-family' |  'Male'  | 'Private' |
+   'Prof-specialty'  | 'White' |   'Own-child'   | 'Female' | 'Private' |
+  'Farming-fishing'  | 'White' | 'Not-in-family' |  'Male'  | 'Private' |
+   'Prof-specialty'  | 'White' |    'Husband'    |  'Male'  | 'Private' |
+  'Priv-house-serv'  | 'White' | 'Not-in-family' | 'Female' | 'Private' |
+-------------------------------------------------------------------------
+================================================================================
+
+
+================================================================================
+NonNormalNumericFeatureDetector
+================================================================================
+A feature flagged by this linter has a distribution that varies significantly
+from the other numeric features.
+Especially for linear models, poorly scaled features with high variance
+(e.g., all but one are in the range [-10, 10] but one is in [0, 100000])
+can wash out the effects of the other features.
+
+Quickfix: use the [standard score](https://en.wikipedia.org/wiki/Standard_score)
+of (at least) the flagged features.
+-----
+A 'typical' numeric feature in the dataset has mean 3.18e+04 and std dev 18894 but
+* fnlwgt had mean = 1.8978e+05, std_dev = 1.0555e+05
+================================================================================
+
+
+================================================================================
+TailedDistributionDetector
+================================================================================
+A feature flagged by this linter has an extremal value that significantly
+affects the mean. This may be because the value is an outlier but it may also
+be due to the extremal value being very common. In either case, however, it
+would be beneficial to check the histograms to ensure that they follow the
+expected distribution.
+
+Quickfix: check the histograms of the feature values.
+-----
+Flagged features and outlying extrema:
+* capital-gain: min value of 0
+* capital-loss: min value of 0
+================================================================================

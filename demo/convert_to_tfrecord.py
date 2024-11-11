@@ -26,9 +26,9 @@ Reference for converting data to TFRecords:
 import pandas
 import tensorflow as tf
 
-
-DATA_FILE = "/tmp/adult.data"
-OUTPUT_FILE = "/tmp/adult.tfrecords"
+# file at the current directory
+DATA_FILE = "adult.data"
+OUTPUT_FILE = "adult.tfrecords"
 
 column_names = [
     'age', 'workclass', 'fnlwgt', 'education', 'education-num',
@@ -41,12 +41,12 @@ numerical_features = ['age', 'fnlwgt', 'education-num', 'capital-gain',
                       'capital-loss', 'hours-per-week']
 
 df = pandas.read_csv(DATA_FILE).values
-with tf.python_io.TFRecordWriter(OUTPUT_FILE) as writer:
+with tf.io.TFRecordWriter(OUTPUT_FILE) as writer:
   for row in df:
     example = tf.train.Example()
     for col_name, val in zip(column_names, row):
       if col_name in numerical_features:
         example.features.feature[col_name].int64_list.value.append(val)
       else:
-        example.features.feature[col_name].bytes_list.value.append(val.strip())
+        example.features.feature[col_name].bytes_list.value.append(val.strip().encode('utf-8'))
     writer.write(example.SerializeToString())

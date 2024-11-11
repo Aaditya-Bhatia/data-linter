@@ -22,12 +22,12 @@ https://github.com/PAIR-code/facets/tree/master/facets_overview/python
 """
 from feature_statistics_generator import ProtoFromTfRecordFiles
 
-DATASET_PATH = "/tmp/adult.tfrecords"
-OUTPUT_PATH = "/tmp/adult_summary.bin"
+DATASET_PATH = "adult.tfrecords"
+OUTPUT_PATH = "adult_summary.bin"
 DATASET_NAME = "uci_census"
 
 result = ProtoFromTfRecordFiles(
     [{"name": DATASET_NAME, "path": DATASET_PATH}],
     max_entries=1000000)
-with open(OUTPUT_PATH, "w") as fout:
-  fout.write(result.SerializeToString())
+with open(OUTPUT_PATH, "wb") as fout:  # Open in binary mode
+    fout.write(result.SerializeToString())
