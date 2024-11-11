@@ -1,5 +1,15 @@
 # Data Linter
 
+This is a fork of google brain's data linter [project](https://github.com/brain-research/data-linter), which was created by Nick Hynes (nhynes@berkeley.edu) during an
+internship at Google, but is currently an archived project.
+
+Its an amazing tool, which I have put into the lazarus pit and have revived it. However, this reviving has been a painful process (no documentation, conflicting dependencies, etc.), and I have made the demo work (and am using it for statistically cleaning some other files). However, maintenance is far from ideal and I would love to take PRs and hope y'all can help maintain this awesome project!
+
+Its built on python2.7 and some other data pre-processing is built on python3.+ which would obviously drive anyone crazy. 
+- I found non-conflicting dependecies and pinned them into 2 requirements.txt files. 
+- Made the demo working, along with the corresponding data files in the `demo` folder.
+- Extracted relevant code from super old dependencies and removed them in requirements.txt (eg. incompatible `facets` library which is depreciated and archived).
+
 ## Summary
 
 This code accompanies the
@@ -10,19 +20,16 @@ The Data Linter identifies potential issues (lints) in your ML training data.
 
 # Using the Data Linter
 
-## Prerequisites
+## Environment Setup
 
-You'll need the following installed to use the Data Linter:
+Create a python 3.8 virtual environment and install libraries using 
 
-1. Python
-2. [Apache Beam](https://beam.apache.org/)
-3. [TensorFlow](https://www.tensorflow.org/)
-4. [Facets](https://github.com/PAIR-code/facets)
+`pip install -r requirements.txt`
+
 
 ## Data Linter Demo
 
-The easiest way to see how to use the Data Linter is to follow the demo
-instructions found in `demo/README.md`.
+Navigate to the demo folder and run the python two files using instructions found in `demo/README.md`.
 
 ## Running the Data Linter
 
@@ -33,18 +40,20 @@ Running the Data Linter requires the following steps:
 3. Running the Data Linter.
 4. Using the Lint Explorer to produce the lint results.
 
-### Creating Data in the TFRecord Format
+The data preprocessing part of the project works on Python3.8 and the details are in the `demo` folder. Particularly, 
 
-To see how to convert CSV files to the TFRecord format, look at the example code
+#### 1. Creating Data in the TFRecord Format
+*[Part of Data Preprocessing]*
+Converts CSV files to the TFRecord format, look at the example code
 in `demo/convert_to_tfrecord.py`.
 
-### Summarizing Your Data Using Facets
-
+#### 2. Summarizing Your Data Using Facets
+*[Part of Data Preprocessing]*
 To see how to generate summary statistics for your data, see the example code in
 `demo/summarize_data.py`.
 
 ### Executing the Data Linter
-
+*[Part of Main Data Linter at python 2.7 ]*
 Once you have both the data and summary statistics, you can run the Data Linter
 as such:
 
@@ -53,13 +62,12 @@ python data_linter_main.py --dataset_path PATH_TO_TFRECORDS \
   --stats_path PATH_TO_FACETS_SUMMARIES --results_path PATH_FOR_SAVING_RESULTS
 ```
 
-For example, if you follow the instructions in the demo folder, you'll invoke
-the Data Linter like this:
+Specifically, to run the demo, 
 
 ```shell
-python data_linter_main.py --dataset_path /tmp/adult.tfrecords \
-  --stats_path /tmp/adult_summary.bin \
-  --results_path /tmp/datalinter/results/lint_results.bin
+python data_linter_main.py --dataset_path demo adult.tfrecords 
+  --stats_path demo/adult_summary.bin 
+  --results_path demo/adult_lints.bin
 ```
 
 ### Viewing Results with the Lint Explorer
@@ -71,14 +79,14 @@ using this command:
 python lint_explorer_main.py --results_path PATH_TO_RESULTS
 ```
 
-For example:
+Specifically, for the demo files, 
 
 ```shell
 python lint_explorer_main.py --results_path \
-  /tmp/datalinter/results/lint_results.bin
+  demo/lint_results.bin
 ```
 
-# Notes
+# Learning Material
 
 The code makes use of
 [Google's protobuf format](https://developers.google.com/protocol-buffers/).
@@ -87,13 +95,3 @@ The protos are defined in `protos/`.
 To make it easier to run the code, we include protobuf definitions from
 [TensorFlow](https://www.tensorflow.org/) and
 [Facets](https://github.com/PAIR-code/facets) in this distribution.
-
-# Support
-
-This is not an official Google project. This project will not be supported or
-maintained, and we will not accept any pull requests.
-
-# Authors
-
-The Data Linter was created by Nick Hynes (nhynes@berkeley.edu) during an
-internship at Google with Michael Terry (michaelterry@google.com).
