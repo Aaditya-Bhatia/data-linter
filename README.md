@@ -16,20 +16,20 @@ This code accompanies the
 [NIPS 2017 ML Systems Workshop](http://learningsys.org/nips17/) paper/poster,
 "The Data Linter: Lightweight, Automated Sanity Checking for ML Data Sets."
 
-The Data Linter identifies potential issues (lints) in your ML training data.
+The Data Linter uses statistical techniques to identify potential issues (lints) in your ML training data.
 
 # Using the Data Linter
 
 ## Environment Setup
 
-Create a python 3.8 virtual environment and install libraries using 
+Create a python 2.7 virtual environment and install libraries using 
 
 `pip install -r requirements.txt`
 
 
 ## Data Linter Demo
 
-Navigate to the demo folder and run the python two files using instructions found in `demo/README.md`.
+Navigate to the demo folder and run the python two files using instructions found in `demo/README.md` (NOTE: this works on python3.8).
 
 ## Running the Data Linter
 
@@ -43,12 +43,12 @@ Running the Data Linter requires the following steps:
 The data preprocessing part of the project works on Python3.8 and the details are in the `demo` folder. Particularly, 
 
 #### 1. Creating Data in the TFRecord Format
-*[Part of Data Preprocessing]*
+*[Part of Data Preprocessing at python3.8]*
 Converts CSV files to the TFRecord format, look at the example code
 in `demo/convert_to_tfrecord.py`.
 
 #### 2. Summarizing Your Data Using Facets
-*[Part of Data Preprocessing]*
+*[Part of Data Preprocessing at python3.8]*
 To see how to generate summary statistics for your data, see the example code in
 `demo/summarize_data.py`.
 
@@ -86,12 +86,9 @@ python lint_explorer_main.py --results_path \
   demo/lint_results.bin
 ```
 
-# Learning Material
+# Supplimentary Material
 
 The code makes use of
-[Google's protobuf format](https://developers.google.com/protocol-buffers/).
-The protos are defined in `protos/`.
+[Google's protobuf format](https://developers.google.com/protocol-buffers/). The protos are defined in `protos/`.
 
-To make it easier to run the code, we include protobuf definitions from
-[TensorFlow](https://www.tensorflow.org/) and
-[Facets](https://github.com/PAIR-code/facets) in this distribution.
+The facets library is archived and is not installable due to package conflicts. Which is why, I placed the relevant [code](https://github.com/PAIR-code/facets/tree/master/facets_overview/python) is present in the `demo` folder. 
